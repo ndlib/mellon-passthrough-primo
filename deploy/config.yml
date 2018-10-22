@@ -1,0 +1,40 @@
+Service: sfx-passthrough
+
+PreDeploy: preDeploy.py
+
+Stacks:
+  Global:
+    Tags:
+      Name: $SERVICE-$STAGE
+      Owner: WSE
+      Contact: web-and-software-engineering-group@nd.edu
+      InceptDate: $TIMESTAMP
+  Single:
+    - Name: $SERVICE-$STAGE
+      Template: root.yml
+      Tags:
+        Description: Passthrough for primo
+      Parameters:
+        Stage: $STAGE
+        ServiceName: $SERVICE
+        ServiceStage: $SERVICE-$STAGE
+        TemplateBucket: $DEPLOY_BUCKET
+        TemplateFolder: $DEPLOY_FOLDER
+        PassthroughUrl: ${PASSTHROUGH_URL}
+        Version: dev
+
+Artifacts:
+  Templates:
+    - root.yml
+    - lambda.yml
+    - api.yml
+
+  Zips:
+    - Name: Passthrough
+      Files:
+        - ../index.js
+        - ../node_modules
+
+LambdaEnv:
+  Global:
+    KMSKey: alias/wse/kms/

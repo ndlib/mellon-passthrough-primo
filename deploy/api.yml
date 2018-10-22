@@ -1,0 +1,99 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Description: "Portal Resources Gateway"
+
+Parameters:
+  ServiceName:
+    Type: String
+    Description: The name of the service
+  Stage:
+    Type: String
+    Description: The deployed stage
+  PassthroughArn:
+    Type: String
+    Description: Arn for the passthrough Lambda
+
+Outputs:
+  PassthroughGateway:
+    Description: Passthrough Gateway
+    Value: !Ref Gateway
+
+Resources:
+  GatewayStage10:
+    Type: AWS::ApiGateway::Deployment
+    DependsOn: Gateway
+    Properties:
+      RestApiId: !Ref Gateway
+      StageName: !Ref Stage
+
+  Gateway:
+    Type: AWS::ApiGateway::RestApi
+    Properties:
+      Name: !Ref ServiceName
+      Description: Get course infromation for a user
+      Body:
+        swagger: "2.0"
+        schemes:
+        - "https"
+        paths:
+          /{proxy+}:
+            get:
+              responses:
+                "200":
+                  description: Website Courses
+                  headers:
+                    Access-Control-Allow-Origin:
+                      type: "string"
+                    Access-Control-Allow-Methods:
+                      type: "string"
+                    Access-Control-Allow-Headers:
+                      type: "string"
+                  schema:
+                    $ref: '#/definitions/OutList'
+                "401":
+                  description: Unauthorized
+                default:
+                  description: Unexpected error
+                  schema:
+                    $ref: '#/definitions/Error'
+              x-amazon-apigateway-integration:
+                uri:
+                  Fn::Join:
+                    - ''
+                    - - "arn:aws:apigateway:"
+                      - !Ref AWS::Region
+                      - ":lambda:path/2015-03-31/functions/"
+                      - !Ref PassthroughArn
+                      - "/invocations"
+                passthroughBehavior: "when_no_match"
+                httpMethod: "POST"
+                type: "aws_proxy"
+            options:
+              consumes:
+              - "application/json"
+              produces:
+              - "application/json"
+              responses:
+                "200":
+                  description: "200 response"
+                  headers:
+                    Access-Control-Allow-Origin:
+                      type: "string"
+                    Access-Control-Allow-Methods:
+                      type: "string"
+                    Access-Control-Allow-Credentials:
+                      type: "string"
+                    Access-Control-Allow-Headers:
+                      type: "string"
+              x-amazon-apigateway-integration:
+                responses:
+                  default:
+                    statusCode: "200"
+                    responseParameters:
+                      method.response.header.Access-Control-Allow-Credentials: "'false'"
+                      method.response.header.Access-Control-Allow-Methods: "'OPTIONS,GET'"
+                      method.response.header.Access-Control-Allow-Headers: "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token'"
+                      method.response.header.Access-Control-Allow-Origin: "'*'"
+                requestTemplates:
+                  application/json: "{statusCode:200}"
+                passthroughBehavior: "when_no_match"
+                type: "mock"

@@ -1,0 +1,54 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Description: "Transforms content from the website's Contentful space for easier consumption by the front-end (usurper)"
+
+Parameters:
+  Stage:
+    Type: String
+    Description: The name of the stage
+  ServiceName:
+    Type: String
+    Description: The name of the service
+  ServiceStage:
+    Type: String
+    Description: The name of the service-stage
+  TemplateBucket:
+    Type: String
+    Description: Bucket this (and code) is deployed in
+  TemplateFolder:
+    Type: String
+    Description: Location of template files
+  Version:
+    Type: String
+    Description: Git tag of this deployment
+  PassthroughUrl:
+    Type: String
+    Description: Url to passthrough
+  CacheEnabled:
+    Type: String
+    Description: "Do we enable Cache"
+    Default: false
+
+Resources:
+  LambdasStack:
+    Type: AWS::CloudFormation::Stack
+    Properties:
+      TemplateURL:
+        Fn::Sub: https://s3.amazonaws.com/${TemplateBucket}/${TemplateFolder}/lambda.yml
+      Parameters:
+        Version: !Ref Version
+        ServiceStage: !Ref ServiceStage
+        RoleARN: !ImportValue LambdaServiceRole
+        CodeBucket: !Ref TemplateBucket
+        CodePath: !Ref TemplateFolder
+        PassthroughUrl: !Ref PassthroughUrl
+
+  GatewayStack:
+    Type: AWS::CloudFormation::Stack
+    DependsOn: LambdasStack
+    Properties:
+      TemplateURL:
+        Fn::Sub: https://s3.amazonaws.com/${TemplateBucket}/${TemplateFolder}/api.yml
+      Parameters:
+        ServiceName: !Ref ServiceName
+        Stage: !Ref Stage
+        PassthroughArn: !GetAtt LambdasStack.Outputs.PassthroughArn
