@@ -49,6 +49,6 @@ Resources:
       TemplateURL:
         Fn::Sub: https://s3.amazonaws.com/${TemplateBucket}/${TemplateFolder}/api.yml
       Parameters:
-        ServiceName: !Ref ServiceName
+        ServiceName: !Ref ServiceStage
         Stage: !Ref Stage
         PassthroughArn: !GetAtt LambdasStack.Outputs.PassthroughArn

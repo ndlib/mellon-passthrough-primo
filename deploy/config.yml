@@ -1,4 +1,4 @@
-Service: sfx-passthrough
+Service: passthrough
 
 PreDeploy: preDeploy.py
 
