@@ -7,6 +7,7 @@ exports.handler = async (event, context, lambdaCallback) => {
     const response = await exports.createLambdaResponse(result)
 
     lambdaCallback(null, response)
+    return
   } catch (e) {
     console.error(e)
   }
@@ -17,13 +18,17 @@ exports.queryUrl = (event) => {
   return process.env.PASSTHROUGH_URL + query
 }
 
-exports.queryResult = async (url) => {
+exports.queryResult = (url, testFetch) => {
+  let methodFetch = fetch
+  if (testFetch) {
+    methodFetch = testFetch
+  }
   const requestHeaders = {
       method: "get",
       headers: { "Authorization": "apikey " + process.env.PRIMO_API_KEY }
   }
 
-  return fetch(url, requestHeaders)
+  return methodFetch(url, requestHeaders)
 }
 
 exports.createLambdaResponse = async (result) => {
@@ -50,7 +55,7 @@ exports.test = () => {
     (err, data) => {
       if (err) {
         console.log("ERROR:")
-        console.log(JSON.stringify(JSON.parse(err), null, 2))
+        console.error(JSON.stringify(JSON.parse(err), null, 2))
       } else {
         console.log(JSON.stringify(JSON.parse(data.body), null, 2))
       }
