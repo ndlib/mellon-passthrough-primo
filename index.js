@@ -10,6 +10,7 @@ exports.handler = async (event, context, lambdaCallback) => {
     return
   } catch (e) {
     console.error(e)
+    lambdaCallback(e, exports.errorResponse(e))
   }
 }
 
@@ -26,8 +27,7 @@ exports.queryResult = (url, testFetch) => {
   const requestHeaders = {
       method: "get",
       headers: { "Authorization": "apikey " + process.env.PRIMO_API_KEY }
-  }
-
+  }  
   return methodFetch(url, requestHeaders)
 }
 
@@ -41,6 +41,17 @@ exports.createLambdaResponse = async (result) => {
       "Content-Type": result.headers.get("Content-type"),
     },
     body: body
+  }
+}
+
+exports.errorResponse = (error) => {
+  return response = {
+    statusCode: 500,
+    body: JSON.stringify({ error: "Unable to Process Request"}),
+    headers: {
+      "Access-Control-Allow-Origin" : "*", // Required for CORS support to work
+      "x-nd-version": process.env.VERSION,
+    },
   }
 }
 
