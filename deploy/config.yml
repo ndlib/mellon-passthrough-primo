@@ -13,7 +13,7 @@ Stacks:
     - Name: $SERVICE-$STAGE
       Template: root.yml
       Tags:
-        Description: Passthrough for primo
+        Description: Passthrough responsible for attaching API Keys to Primo API queries
       Parameters:
         Stage: $STAGE
         ServiceName: $SERVICE
