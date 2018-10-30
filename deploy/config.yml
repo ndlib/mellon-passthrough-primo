@@ -21,6 +21,7 @@ Stacks:
         TemplateBucket: $DEPLOY_BUCKET
         TemplateFolder: $DEPLOY_FOLDER
         PassthroughUrl: ${PASSTHROUGH_URL}
+        PrimoApiKey: ${PRIMO_API_KEY}
         Version: dev
 
 Artifacts:

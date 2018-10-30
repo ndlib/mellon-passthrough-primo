@@ -23,6 +23,9 @@ Parameters:
   PassthroughUrl:
     Type: String
     Description: Url to passthrough
+  PrimoApiKey:
+    Type: String
+    Description: Api Key to passtrhough to primo
   CacheEnabled:
     Type: String
     Description: "Do we enable Cache"
@@ -41,6 +44,7 @@ Resources:
         CodeBucket: !Ref TemplateBucket
         CodePath: !Ref TemplateFolder
         PassthroughUrl: !Ref PassthroughUrl
+        PrimoApiKey: !Ref PrimoApiKey
 
   GatewayStack:
     Type: AWS::CloudFormation::Stack
