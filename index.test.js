@@ -4,7 +4,7 @@ describe("primo passthrough", () => {
   const OLD_ENV = process.env;
 
   beforeEach(() => {
-    jest.resetModules() // this is important
+    jest.resetModules() // this is important for the process env replacement
     process.env = { ...OLD_ENV }
     process.env.PRIMO_API_KEY = "primokey"
     process.env.PASSTHROUGH_URL = "primourl"
