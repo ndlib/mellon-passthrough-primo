@@ -38,3 +38,12 @@ Artifacts:
 LambdaEnv:
   Global:
     KMSKey: alias/wse/kms/
+  Single:
+    - FunctionName: $SERVICE-$STAGE-passthrough
+      Environment:
+        -
+          Name: PRIMO_API_KEY
+          Value: ${PRIMO_API_KEY}
+        -
+          Name: PASSTHROUGH_URL
+          Value: ${PASSTHROUGH_URL}
