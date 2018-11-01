@@ -39,6 +39,9 @@ Parameters:
   PassthroughUrl:
     Type: String
     Description: Url to passthrough
+  PrimoApiKey:
+    Type: String
+    Description: Api Key for primo
 
 Outputs:
   PassthroughArn:
@@ -63,6 +66,7 @@ Resources:
         Variables:
           VERSION: !Ref Version
           PASSTHROUGH_URL: !Ref PassthroughUrl
+          PRIMO_API_KEY: !Ref PrimoApiKey
 
   PassthroughPermission:
     DependsOn: PassthroughFunction
