@@ -1,5 +1,5 @@
 AWSTemplateFormatVersion: "2010-09-09"
-Description: "Portal Resources Gateway"
+Description: "Passthrough responsible for attaching API Keys to Primo API queries"
 
 Parameters:
   ServiceName:

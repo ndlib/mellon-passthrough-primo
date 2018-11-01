@@ -38,7 +38,7 @@ Parameters:
     Default: false
   PassthroughUrl:
     Type: String
-    Description: Url to passthrough    
+    Description: Url to passthrough
 
 Outputs:
   PassthroughArn:
