@@ -2,7 +2,7 @@
   "name": "mellon-passthrough-primo",
   "version": "1.0.0",
   "main": "index.js",
-  "license": "APCHE2",
+  "license": "APACHE2",
   "dependencies": {
     "node-fetch": "^2.2.0"
   },
