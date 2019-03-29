@@ -10,6 +10,9 @@ Parameters:
   AppConfigPath:
     Type: String
     Description: The path to look for the application config from
+  TestValue:
+      Type: String
+      Description: There can be only one
 
 
 Resources:
@@ -39,3 +42,4 @@ Resources:
       Environment:
         Variables:
           SSM_KEY_BASE: !Ref AppConfigPath
+          TEST_VALUE: !Ref TestValue
