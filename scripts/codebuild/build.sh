@@ -1,5 +1,4 @@
 echo "[Build phase] `date` in `pwd`"
-echo "`ls -lrt`"
 echo "S3 Bucket"
 echo $S3_BUCKET
 
