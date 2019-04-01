@@ -10,16 +10,16 @@ Parameters:
   AppConfigPath:
     Type: String
     Description: The path to look for the application config from
-  PASSTHROUGH_URL:
+  PassthroughUrl:
       Type: String
       Description: Primo passthrough url
-  PRIMO_API_KEY:
+  PrimoApiKey:
       Type: String
       Description: Primo API key
-  PRIMO_SANDBOX_API_KEY:
+  PrimoSandboxApiKey:
       Type: String
       Description: Sandbox Primo API key
-  VERSION:
+  Version:
       Type: String
       Description: Versioning information
 
@@ -51,7 +51,7 @@ Resources:
       CodeUri: passthrough/
       Environment:
         Variables:
-          PRIMO_API_KEY: !Ref PRIMO_API_KEY
-          PASSTHROUGH_URL: !Ref PASSTHROUGH_URL
-          PRIMO_SANDBOX_API_KEY: !Ref PRIMO_SANDBOX_API_KEY
-          VERSION: !Ref VERSION
+          PRIMO_API_KEY: !Ref PrimoApiKey
+          PASSTHROUGH_URL: !Ref PassthroughUrl
+          PRIMO_SANDBOX_API_KEY: !Ref PrimoSandboxApiKey
+          VERSION: !Ref Version
