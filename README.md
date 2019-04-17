@@ -4,4 +4,5 @@ Responsible for attaching API Keys to Primo API queries
 
 ## Local Development
 ### Deployment
-./local-deploy.sh stage-name /path/to/mellon-blueprints/ primo-api-key primo-sandbox-api-key primo-url
+export S3_BUCKET=code_goes_here
+./local-deploy.sh stage-name /path/to/mellon-blueprints/
