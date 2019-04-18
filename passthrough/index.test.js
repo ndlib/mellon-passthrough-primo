@@ -24,7 +24,11 @@ describe("primo passthrough", () => {
       path: "/path",
       queryStringParameters: { var1: "var1", var2: "var2", var3: "var3" },
     }
-    const url = index.queryUrl(event)
+    const config = {
+      passthrough_url: process.env.PASSTHROUGH_URL,
+      primo_api_key: process.env.PRIMO_API_KEY
+    }
+    const url = index.queryUrl(config, event)
 
     // uses the passtrhough url from env
     expect(url).toMatch(/primourl/)
@@ -37,7 +41,11 @@ describe("primo passthrough", () => {
   test('it passes the url and headers to the fetch', async () => {
     fetch.mockResponseOnce(JSON.stringify({ data: '12345' }))
 
-    const response = await index.queryResult("http://google.com", fetch)
+    const config = {
+      passthrough_url: process.env.PASSTHROUGH_URL,
+      primo_api_key: process.env.PRIMO_API_KEY
+    }
+    const response = await index.queryResult(config, "http://google.com", fetch)
     const headers = {
       "headers": {
         "Authorization": "apikey primokey", // from env
