@@ -41,7 +41,7 @@ exports.queryUrl = (config, event) => {
   return config.passthrough_url + query
 }
 
-exports.queryResult = (url, testFetch) => {
+exports.queryResult = (config, url, testFetch) => {
   let methodFetch = deps.fetch
   if (testFetch) {
     methodFetch = testFetch
