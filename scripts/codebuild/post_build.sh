@@ -1,3 +1,3 @@
 echo "[Post-Build phase] `date` in `pwd`"
 
-rm -f manifest-passthrough.yml
+rm -f primo-passthrough.yml
